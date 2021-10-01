@@ -497,17 +497,25 @@ namespace OpenHardwareMonitor.GUI
             treeView.Invalidate();
             systemTray.Redraw();
             if (gadget != null)
+            {
                 gadget.Redraw();
+            }
 
             if (wmiProvider != null)
+            {
                 wmiProvider.Update();
+            }
 
 
             if (logSensors != null && logSensors.Value && delayCount >= 4)
+            {
                 logger.Log();
+            }
 
             if (delayCount < 4)
+            {
                 delayCount++;
+            }
         }
 
         private void SaveConfiguration()
