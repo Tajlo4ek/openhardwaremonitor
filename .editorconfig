@@ -14,7 +14,7 @@ dotnet_style_qualification_for_field=true:none
 # Recommended max_line_length = 100
 
 # New line preferences
-csharp_new_line_before_open_brace = none
+csharp_new_line_before_open_brace =all
 csharp_new_line_before_else = false
 csharp_new_line_before_catch = false
 csharp_new_line_before_finally = false

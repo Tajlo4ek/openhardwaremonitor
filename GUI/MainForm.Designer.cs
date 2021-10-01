@@ -35,15 +35,6 @@ namespace OpenHardwareMonitor.GUI {
     private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.sensor = new Aga.Controls.Tree.TreeColumn();
-            this.value = new Aga.Controls.Tree.TreeColumn();
-            this.min = new Aga.Controls.Tree.TreeColumn();
-            this.max = new Aga.Controls.Tree.TreeColumn();
-            this.nodeImage = new Aga.Controls.Tree.NodeControls.NodeIcon();
-            this.nodeTextBoxText = new Aga.Controls.Tree.NodeControls.NodeTextBox();
-            this.nodeTextBoxValue = new Aga.Controls.Tree.NodeControls.NodeTextBox();
-            this.nodeTextBoxMin = new Aga.Controls.Tree.NodeControls.NodeTextBox();
-            this.nodeTextBoxMax = new Aga.Controls.Tree.NodeControls.NodeTextBox();
             this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
             this.fileMenuItem = new System.Windows.Forms.MenuItem();
             this.saveReportMenuItem = new System.Windows.Forms.MenuItem();
@@ -101,75 +92,16 @@ namespace OpenHardwareMonitor.GUI {
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.treeView = new Aga.Controls.Tree.TreeViewAdv();
+            this.sensor = new Aga.Controls.Tree.TreeColumn();
+            this.value = new Aga.Controls.Tree.TreeColumn();
+            this.min = new Aga.Controls.Tree.TreeColumn();
+            this.max = new Aga.Controls.Tree.TreeColumn();
+            this.nodeImage = new Aga.Controls.Tree.NodeControls.NodeIcon();
+            this.nodeTextBoxText = new Aga.Controls.Tree.NodeControls.NodeTextBox();
+            this.nodeTextBoxValue = new Aga.Controls.Tree.NodeControls.NodeTextBox();
+            this.nodeTextBoxMin = new Aga.Controls.Tree.NodeControls.NodeTextBox();
+            this.nodeTextBoxMax = new Aga.Controls.Tree.NodeControls.NodeTextBox();
             this.SuspendLayout();
-            // 
-            // sensor
-            // 
-            this.sensor.Header = "Sensor";
-            this.sensor.SortOrder = System.Windows.Forms.SortOrder.None;
-            this.sensor.TooltipText = null;
-            // 
-            // value
-            // 
-            this.value.Header = "Value";
-            this.value.SortOrder = System.Windows.Forms.SortOrder.None;
-            this.value.TooltipText = null;
-            // 
-            // min
-            // 
-            this.min.Header = "Min";
-            this.min.SortOrder = System.Windows.Forms.SortOrder.None;
-            this.min.TooltipText = null;
-            // 
-            // max
-            // 
-            this.max.Header = "Max";
-            this.max.SortOrder = System.Windows.Forms.SortOrder.None;
-            this.max.TooltipText = null;
-            // 
-            // nodeImage
-            // 
-            this.nodeImage.DataPropertyName = "Image";
-            this.nodeImage.LeftMargin = 1;
-            this.nodeImage.ParentColumn = this.sensor;
-            this.nodeImage.ScaleMode = Aga.Controls.Tree.ImageScaleMode.Fit;
-            // 
-            // nodeTextBoxText
-            // 
-            this.nodeTextBoxText.DataPropertyName = "Text";
-            this.nodeTextBoxText.EditEnabled = true;
-            this.nodeTextBoxText.IncrementalSearchEnabled = true;
-            this.nodeTextBoxText.LeftMargin = 3;
-            this.nodeTextBoxText.ParentColumn = this.sensor;
-            this.nodeTextBoxText.Trimming = System.Drawing.StringTrimming.EllipsisCharacter;
-            this.nodeTextBoxText.UseCompatibleTextRendering = true;
-            // 
-            // nodeTextBoxValue
-            // 
-            this.nodeTextBoxValue.DataPropertyName = "Value";
-            this.nodeTextBoxValue.IncrementalSearchEnabled = true;
-            this.nodeTextBoxValue.LeftMargin = 3;
-            this.nodeTextBoxValue.ParentColumn = this.value;
-            this.nodeTextBoxValue.Trimming = System.Drawing.StringTrimming.EllipsisCharacter;
-            this.nodeTextBoxValue.UseCompatibleTextRendering = true;
-            // 
-            // nodeTextBoxMin
-            // 
-            this.nodeTextBoxMin.DataPropertyName = "Min";
-            this.nodeTextBoxMin.IncrementalSearchEnabled = true;
-            this.nodeTextBoxMin.LeftMargin = 3;
-            this.nodeTextBoxMin.ParentColumn = this.min;
-            this.nodeTextBoxMin.Trimming = System.Drawing.StringTrimming.EllipsisCharacter;
-            this.nodeTextBoxMin.UseCompatibleTextRendering = true;
-            // 
-            // nodeTextBoxMax
-            // 
-            this.nodeTextBoxMax.DataPropertyName = "Max";
-            this.nodeTextBoxMax.IncrementalSearchEnabled = true;
-            this.nodeTextBoxMax.LeftMargin = 3;
-            this.nodeTextBoxMax.ParentColumn = this.max;
-            this.nodeTextBoxMax.Trimming = System.Drawing.StringTrimming.EllipsisCharacter;
-            this.nodeTextBoxMax.UseCompatibleTextRendering = true;
             // 
             // mainMenu
             // 
@@ -554,7 +486,7 @@ namespace OpenHardwareMonitor.GUI {
             this.treeView.NodeControls.Add(this.nodeTextBoxMin);
             this.treeView.NodeControls.Add(this.nodeTextBoxMax);
             this.treeView.SelectedNode = null;
-            this.treeView.Size = new System.Drawing.Size(418, 512);
+            this.treeView.Size = new System.Drawing.Size(418, 491);
             this.treeView.TabIndex = 0;
             this.treeView.Text = "treeView";
             this.treeView.UseColumns = true;
@@ -564,11 +496,79 @@ namespace OpenHardwareMonitor.GUI {
             this.treeView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.treeView_MouseMove);
             this.treeView.MouseUp += new System.Windows.Forms.MouseEventHandler(this.treeView_MouseUp);
             // 
+            // sensor
+            // 
+            this.sensor.Header = "Sensor";
+            this.sensor.SortOrder = System.Windows.Forms.SortOrder.None;
+            this.sensor.TooltipText = null;
+            // 
+            // value
+            // 
+            this.value.Header = "Value";
+            this.value.SortOrder = System.Windows.Forms.SortOrder.None;
+            this.value.TooltipText = null;
+            // 
+            // min
+            // 
+            this.min.Header = "Min";
+            this.min.SortOrder = System.Windows.Forms.SortOrder.None;
+            this.min.TooltipText = null;
+            // 
+            // max
+            // 
+            this.max.Header = "Max";
+            this.max.SortOrder = System.Windows.Forms.SortOrder.None;
+            this.max.TooltipText = null;
+            // 
+            // nodeImage
+            // 
+            this.nodeImage.DataPropertyName = "Image";
+            this.nodeImage.LeftMargin = 1;
+            this.nodeImage.ParentColumn = this.sensor;
+            this.nodeImage.ScaleMode = Aga.Controls.Tree.ImageScaleMode.Fit;
+            // 
+            // nodeTextBoxText
+            // 
+            this.nodeTextBoxText.DataPropertyName = "Text";
+            this.nodeTextBoxText.EditEnabled = true;
+            this.nodeTextBoxText.IncrementalSearchEnabled = true;
+            this.nodeTextBoxText.LeftMargin = 3;
+            this.nodeTextBoxText.ParentColumn = this.sensor;
+            this.nodeTextBoxText.Trimming = System.Drawing.StringTrimming.EllipsisCharacter;
+            this.nodeTextBoxText.UseCompatibleTextRendering = true;
+            // 
+            // nodeTextBoxValue
+            // 
+            this.nodeTextBoxValue.DataPropertyName = "Value";
+            this.nodeTextBoxValue.IncrementalSearchEnabled = true;
+            this.nodeTextBoxValue.LeftMargin = 3;
+            this.nodeTextBoxValue.ParentColumn = this.value;
+            this.nodeTextBoxValue.Trimming = System.Drawing.StringTrimming.EllipsisCharacter;
+            this.nodeTextBoxValue.UseCompatibleTextRendering = true;
+            // 
+            // nodeTextBoxMin
+            // 
+            this.nodeTextBoxMin.DataPropertyName = "Min";
+            this.nodeTextBoxMin.IncrementalSearchEnabled = true;
+            this.nodeTextBoxMin.LeftMargin = 3;
+            this.nodeTextBoxMin.ParentColumn = this.min;
+            this.nodeTextBoxMin.Trimming = System.Drawing.StringTrimming.EllipsisCharacter;
+            this.nodeTextBoxMin.UseCompatibleTextRendering = true;
+            // 
+            // nodeTextBoxMax
+            // 
+            this.nodeTextBoxMax.DataPropertyName = "Max";
+            this.nodeTextBoxMax.IncrementalSearchEnabled = true;
+            this.nodeTextBoxMax.LeftMargin = 3;
+            this.nodeTextBoxMax.ParentColumn = this.max;
+            this.nodeTextBoxMax.Trimming = System.Drawing.StringTrimming.EllipsisCharacter;
+            this.nodeTextBoxMax.UseCompatibleTextRendering = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(418, 512);
+            this.ClientSize = new System.Drawing.Size(418, 491);
             this.Controls.Add(this.treeView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Menu = this.mainMenu;
