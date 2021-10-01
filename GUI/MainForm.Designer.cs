@@ -95,9 +95,6 @@ namespace OpenHardwareMonitor.GUI {
             this.log2hMenuItem = new System.Windows.Forms.MenuItem();
             this.log6hMenuItem = new System.Windows.Forms.MenuItem();
             this.webMenuItemSeparator = new System.Windows.Forms.MenuItem();
-            this.webMenuItem = new System.Windows.Forms.MenuItem();
-            this.runWebServerMenuItem = new System.Windows.Forms.MenuItem();
-            this.serverPortMenuItem = new System.Windows.Forms.MenuItem();
             this.helpMenuItem = new System.Windows.Forms.MenuItem();
             this.aboutMenuItem = new System.Windows.Forms.MenuItem();
             this.treeContextMenu = new System.Windows.Forms.ContextMenu();
@@ -350,8 +347,7 @@ namespace OpenHardwareMonitor.GUI {
             this.logSeparatorMenuItem,
             this.logSensorsMenuItem,
             this.loggingIntervalMenuItem,
-            this.webMenuItemSeparator,
-            this.webMenuItem});
+            this.webMenuItemSeparator});
             this.optionsMenuItem.Text = "Options";
             // 
             // startMinMenuItem
@@ -513,25 +509,6 @@ namespace OpenHardwareMonitor.GUI {
             this.webMenuItemSeparator.Index = 9;
             this.webMenuItemSeparator.Text = "-";
             // 
-            // webMenuItem
-            // 
-            this.webMenuItem.Index = 10;
-            this.webMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.runWebServerMenuItem,
-            this.serverPortMenuItem});
-            this.webMenuItem.Text = "Remote Web Server";
-            // 
-            // runWebServerMenuItem
-            // 
-            this.runWebServerMenuItem.Index = 0;
-            this.runWebServerMenuItem.Text = "Run";
-            // 
-            // serverPortMenuItem
-            // 
-            this.serverPortMenuItem.Index = 1;
-            this.serverPortMenuItem.Text = "Port";
-            this.serverPortMenuItem.Click += new System.EventHandler(this.serverPortMenuItem_Click);
-            // 
             // helpMenuItem
             // 
             this.helpMenuItem.Index = 3;
@@ -681,9 +658,6 @@ namespace OpenHardwareMonitor.GUI {
     private System.Windows.Forms.MenuItem minCloseMenuItem;
     private System.Windows.Forms.MenuItem resetMenuItem;
     private System.Windows.Forms.MenuItem menuItem6;
-		private System.Windows.Forms.MenuItem webMenuItem;
-    private System.Windows.Forms.MenuItem runWebServerMenuItem;
-    private System.Windows.Forms.MenuItem serverPortMenuItem;
     private System.Windows.Forms.MenuItem menuItem5;
     private System.Windows.Forms.MenuItem mainboardMenuItem;
     private System.Windows.Forms.MenuItem cpuMenuItem;

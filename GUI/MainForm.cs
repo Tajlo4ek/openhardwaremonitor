@@ -59,9 +59,6 @@ namespace OpenHardwareMonitor.GUI {
         private UserOption showGadget;
         private WmiProvider wmiProvider;
 
-        private UserOption runWebServer;
-        private HttpServer server;
-
         private UserOption logSensors;
         private UserRadioGroup loggingInterval;
         private Logger logger;
@@ -270,20 +267,7 @@ namespace OpenHardwareMonitor.GUI {
               unitManager.TemperatureUnit == TemperatureUnit.Celsius;
             fahrenheitMenuItem.Checked = !celsiusMenuItem.Checked;
 
-            server = new HttpServer(root, this.settings.GetValue("listenerPort", 8085));
-            if (server.PlatformNotSupported) {
-                webMenuItemSeparator.Visible = false;
-                webMenuItem.Visible = false;
-            }
-
-            runWebServer = new UserOption("runWebServerMenuItem", false,
-              runWebServerMenuItem, settings);
-            runWebServer.Changed += delegate (object sender, EventArgs e) {
-                if (runWebServer.Value)
-                    server.StartHTTPListener();
-                else
-                    server.StopHTTPListener();
-            };
+            
 
             logSensors = new UserOption("logSensorsMenuItem", false, logSensorsMenuItem,
               settings);
@@ -331,8 +315,6 @@ namespace OpenHardwareMonitor.GUI {
             Microsoft.Win32.SystemEvents.SessionEnded += delegate {
                 computer.Close();
                 SaveConfiguration();
-                if (runWebServer.Value)
-                    server.Quit();
             };
         }
 
@@ -348,8 +330,10 @@ namespace OpenHardwareMonitor.GUI {
             int i = 0;
             while (i < nodes.Count && nodes[i] is HardwareNode &&
               ((HardwareNode)nodes[i]).Hardware.HardwareType <=
-                node.Hardware.HardwareType)
+                node.Hardware.HardwareType) {
                 i++;
+            }
+
             nodes.Insert(i, node);
         }
 
@@ -483,10 +467,6 @@ namespace OpenHardwareMonitor.GUI {
                 return;
 
 
-            if (server != null) {
-                this.settings.SetValue("listenerPort", server.ListenerPort);
-            }
-
             string fileName = Path.ChangeExtension(
                 System.Windows.Forms.Application.ExecutablePath, ".config");
             try {
@@ -538,8 +518,6 @@ namespace OpenHardwareMonitor.GUI {
             timer.Enabled = false;
             computer.Close();
             SaveConfiguration();
-            if (runWebServer.Value)
-                server.Quit();
             systemTray.Dispose();
         }
 
@@ -800,14 +778,5 @@ namespace OpenHardwareMonitor.GUI {
         private void treeView_MouseUp(object sender, MouseEventArgs e) {
             selectionDragging = false;
         }
-
-        private void serverPortMenuItem_Click(object sender, EventArgs e) {
-            new PortForm(this).ShowDialog();
-        }
-
-        public HttpServer Server {
-            get { return server; }
-        }
-
     }
 }
