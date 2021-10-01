@@ -20,40 +20,50 @@ using System.Threading;
 using OpenHardwareMonitor.GUI;
 using OpenHardwareMonitor.Hardware;
 
-namespace OpenHardwareMonitor.Utilities {
+namespace OpenHardwareMonitor.Utilities
+{
 
-  public class HttpServer {
+  public class HttpServer
+  {
     private HttpListener listener;
     private int listenerPort, nodeCount;
     private Thread listenerThread;
     private Node root;
 
-    public HttpServer(Node node, int port) {
+    public HttpServer(Node node, int port)
+    {
       root = node;
       listenerPort = port;
 
       //JSON node count. 
       nodeCount = 0;
 
-      try {
+      try
+      {
         listener = new HttpListener();
         listener.IgnoreWriteExceptions = true;
-      } catch (PlatformNotSupportedException) {
+      }
+      catch (PlatformNotSupportedException)
+      {
         listener = null;
       }
     }
 
-    public bool PlatformNotSupported {
-      get {
+    public bool PlatformNotSupported
+    {
+      get
+      {
         return listener == null;
       }
     }
 
-    public Boolean StartHTTPListener() {
+    public Boolean StartHTTPListener()
+    {
       if (PlatformNotSupported)
         return false;
 
-      try {
+      try
+      {
         if (listener.IsListening)
           return true;
 
@@ -62,65 +72,89 @@ namespace OpenHardwareMonitor.Utilities {
         listener.Prefixes.Add(prefix);
         listener.Start();
 
-        if (listenerThread == null) {
+        if (listenerThread == null)
+        {
           listenerThread = new Thread(HandleRequests);
           listenerThread.Start();
         }
-      } catch (Exception) {
+      }
+      catch (Exception)
+      {
         return false;
       }
 
       return true;
     }
 
-    public Boolean StopHTTPListener() {
+    public Boolean StopHTTPListener()
+    {
+      //TODO: tjk
+      return false;
+
       if (PlatformNotSupported)
         return false;
 
-      try {
+      try
+      {
         listenerThread.Abort();
         listener.Stop();
         listenerThread = null;
-      } catch (HttpListenerException) {
-      } catch (ThreadAbortException) {
-      } catch (NullReferenceException) {
-      } catch (Exception) {
+      }
+      catch (HttpListenerException)
+      {
+      }
+      catch (ThreadAbortException)
+      {
+      }
+      catch (NullReferenceException)
+      {
+      }
+      catch (Exception)
+      {
       }
       return true;
     }
 
-    private void HandleRequests() {
+    private void HandleRequests()
+    {
 
-      while (listener.IsListening) {
+      while (listener.IsListening)
+      {
         var context = listener.BeginGetContext(
           new AsyncCallback(ListenerCallback), listener);
         context.AsyncWaitHandle.WaitOne();
       }
     }
 
-    private void ListenerCallback(IAsyncResult result) {
+    private void ListenerCallback(IAsyncResult result)
+    {
       HttpListener listener = (HttpListener)result.AsyncState;
       if (listener == null || !listener.IsListening)
         return;
 
       // Call EndGetContext to complete the asynchronous operation.
       HttpListenerContext context;
-      try {
-        context = listener.EndGetContext(result);     
-      } catch (Exception) {
+      try
+      {
+        context = listener.EndGetContext(result);
+      }
+      catch (Exception)
+      {
         return;
       }
 
       HttpListenerRequest request = context.Request;
 
       var requestedFile = request.RawUrl.Substring(1);
-      if (requestedFile == "data.json") {
+      if (requestedFile == "data.json")
+      {
         SendJSON(context.Response);
         return;
       }
 
-      if (requestedFile.Contains("images_icon")) {
-        ServeResourceImage(context.Response, 
+      if (requestedFile.Contains("images_icon"))
+      {
+        ServeResourceImage(context.Response,
           requestedFile.Replace("images_icon/", ""));
         return;
       }
@@ -131,40 +165,49 @@ namespace OpenHardwareMonitor.Utilities {
 
       string[] splits = requestedFile.Split('.');
       string ext = splits[splits.Length - 1];
-      ServeResourceFile(context.Response, 
+      ServeResourceFile(context.Response,
         "Web." + requestedFile.Replace('/', '.'), ext);
     }
 
-    private void ServeResourceFile(HttpListenerResponse response, string name, 
-      string ext) 
+    private void ServeResourceFile(HttpListenerResponse response, string name,
+      string ext)
     {
       // resource names do not support the hyphen
-      name = "OpenHardwareMonitor.Resources." + 
+      name = "OpenHardwareMonitor.Resources." +
         name.Replace("custom-theme", "custom_theme");
 
       string[] names =
         Assembly.GetExecutingAssembly().GetManifestResourceNames();
-      for (int i = 0; i < names.Length; i++) {
-        if (names[i].Replace('\\', '.') == name) {
+      for (int i = 0; i < names.Length; i++)
+      {
+        if (names[i].Replace('\\', '.') == name)
+        {
           using (Stream stream = Assembly.GetExecutingAssembly().
-            GetManifestResourceStream(names[i])) {
+            GetManifestResourceStream(names[i]))
+          {
             response.ContentType = GetcontentType("." + ext);
             response.ContentLength64 = stream.Length;
             byte[] buffer = new byte[512 * 1024];
             int len;
-            try {
+            try
+            {
               Stream output = response.OutputStream;
-              while ((len = stream.Read(buffer, 0, buffer.Length)) > 0) {
+              while ((len = stream.Read(buffer, 0, buffer.Length)) > 0)
+              {
                 output.Write(buffer, 0, len);
               }
               output.Flush();
-              output.Close();              
+              output.Close();
               response.Close();
-            } catch (HttpListenerException) { 
-            } catch (InvalidOperationException) { 
+            }
+            catch (HttpListenerException)
+            {
+            }
+            catch (InvalidOperationException)
+            {
             }
             return;
-          }          
+          }
         }
       }
 
@@ -172,26 +215,34 @@ namespace OpenHardwareMonitor.Utilities {
       response.Close();
     }
 
-    private void ServeResourceImage(HttpListenerResponse response, string name) {
+    private void ServeResourceImage(HttpListenerResponse response, string name)
+    {
       name = "OpenHardwareMonitor.Resources." + name;
 
       string[] names =
         Assembly.GetExecutingAssembly().GetManifestResourceNames();
-      for (int i = 0; i < names.Length; i++) {
-        if (names[i].Replace('\\', '.') == name) {
+      for (int i = 0; i < names.Length; i++)
+      {
+        if (names[i].Replace('\\', '.') == name)
+        {
           using (Stream stream = Assembly.GetExecutingAssembly().
-            GetManifestResourceStream(names[i])) {
+            GetManifestResourceStream(names[i]))
+          {
 
             Image image = Image.FromStream(stream);
             response.ContentType = "image/png";
-            try {
+            try
+            {
               Stream output = response.OutputStream;
-              using (MemoryStream ms = new MemoryStream()) {
+              using (MemoryStream ms = new MemoryStream())
+              {
                 image.Save(ms, ImageFormat.Png);
                 ms.WriteTo(output);
               }
               output.Close();
-            } catch (HttpListenerException) {              
+            }
+            catch (HttpListenerException)
+            {
             }
             image.Dispose();
             response.Close();
@@ -204,7 +255,8 @@ namespace OpenHardwareMonitor.Utilities {
       response.Close();
     }
 
-    private void SendJSON(HttpListenerResponse response) {
+    private void SendJSON(HttpListenerResponse response)
+    {
 
       string JSON = "{\"id\": 0, \"Text\": \"Sensor\", \"Children\": [";
       nodeCount = 1;
@@ -224,18 +276,22 @@ namespace OpenHardwareMonitor.Utilities {
       response.ContentLength64 = buffer.Length;
       response.ContentType = "application/json";
 
-      try {
+      try
+      {
         Stream output = response.OutputStream;
         output.Write(buffer, 0, buffer.Length);
         output.Close();
-      } catch (HttpListenerException) {
+      }
+      catch (HttpListenerException)
+      {
       }
 
       response.Close();
     }
 
-    private string GenerateJSON(Node n) {
-      string JSON = "{\"id\": " + nodeCount + ", \"Text\": \"" + n.Text 
+    private string GenerateJSON(Node n)
+    {
+      string JSON = "{\"id\": " + nodeCount + ", \"Text\": \"" + n.Text
         + "\", \"Children\": [";
       nodeCount++;
 
@@ -245,24 +301,31 @@ namespace OpenHardwareMonitor.Utilities {
         JSON = JSON.Remove(JSON.LastIndexOf(","));
       JSON += "]";
 
-      if (n is SensorNode) {
+      if (n is SensorNode)
+      {
         JSON += ", \"Min\": \"" + ((SensorNode)n).Min + "\"";
         JSON += ", \"Value\": \"" + ((SensorNode)n).Value + "\"";
         JSON += ", \"Max\": \"" + ((SensorNode)n).Max + "\"";
         JSON += ", \"ImageURL\": \"images/transparent.png\"";
-      } else if (n is HardwareNode) {
+      }
+      else if (n is HardwareNode)
+      {
         JSON += ", \"Min\": \"\"";
         JSON += ", \"Value\": \"\"";
         JSON += ", \"Max\": \"\"";
-        JSON += ", \"ImageURL\": \"images_icon/" + 
+        JSON += ", \"ImageURL\": \"images_icon/" +
           GetHardwareImageFile((HardwareNode)n) + "\"";
-      } else if (n is TypeNode) {
+      }
+      else if (n is TypeNode)
+      {
         JSON += ", \"Min\": \"\"";
         JSON += ", \"Value\": \"\"";
         JSON += ", \"Max\": \"\"";
-        JSON += ", \"ImageURL\": \"images_icon/" + 
+        JSON += ", \"ImageURL\": \"images_icon/" +
           GetTypeImageFile((TypeNode)n) + "\"";
-      } else {
+      }
+      else
+      {
         JSON += ", \"Min\": \"\"";
         JSON += ", \"Value\": \"\"";
         JSON += ", \"Max\": \"\"";
@@ -273,13 +336,14 @@ namespace OpenHardwareMonitor.Utilities {
       return JSON;
     }
 
-    private static void ReturnFile(HttpListenerContext context, string filePath) 
+    private static void ReturnFile(HttpListenerContext context, string filePath)
     {
-      context.Response.ContentType = 
+      context.Response.ContentType =
         GetcontentType(Path.GetExtension(filePath));
       const int bufferSize = 1024 * 512; //512KB
       var buffer = new byte[bufferSize];
-      using (var fs = File.OpenRead(filePath)) {
+      using (var fs = File.OpenRead(filePath))
+      {
 
         context.Response.ContentLength64 = fs.Length;
         int read;
@@ -290,8 +354,10 @@ namespace OpenHardwareMonitor.Utilities {
       context.Response.OutputStream.Close();
     }
 
-    private static string GetcontentType(string extension) {
-      switch (extension) {
+    private static string GetcontentType(string extension)
+    {
+      switch (extension)
+      {
         case ".avi": return "video/x-msvideo";
         case ".css": return "text/css";
         case ".doc": return "application/msword";
@@ -311,9 +377,11 @@ namespace OpenHardwareMonitor.Utilities {
       }
     }
 
-    private static string GetHardwareImageFile(HardwareNode hn) {
+    private static string GetHardwareImageFile(HardwareNode hn)
+    {
 
-      switch (hn.Hardware.HardwareType) {
+      switch (hn.Hardware.HardwareType)
+      {
         case HardwareType.CPU:
           return "cpu.png";
         case HardwareType.GpuNvidia:
@@ -338,9 +406,11 @@ namespace OpenHardwareMonitor.Utilities {
 
     }
 
-    private static string GetTypeImageFile(TypeNode tn) {
+    private static string GetTypeImageFile(TypeNode tn)
+    {
 
-      switch (tn.SensorType) {
+      switch (tn.SensorType)
+      {
         case SensorType.Voltage:
           return "voltage.png";
         case SensorType.Clock:
@@ -365,12 +435,14 @@ namespace OpenHardwareMonitor.Utilities {
 
     }
 
-    public int ListenerPort {
+    public int ListenerPort
+    {
       get { return listenerPort; }
       set { listenerPort = value; }
     }
 
-    ~HttpServer() {
+    ~HttpServer()
+    {
       if (PlatformNotSupported)
         return;
 
@@ -378,7 +450,8 @@ namespace OpenHardwareMonitor.Utilities {
       listener.Abort();
     }
 
-    public void Quit() {
+    public void Quit()
+    {
       if (PlatformNotSupported)
         return;
 

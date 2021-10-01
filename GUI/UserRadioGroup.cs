@@ -35,10 +35,10 @@ namespace OpenHardwareMonitor.GUI {
       for (int i = 0; i < this.menuItems.Length; i++) {
         this.menuItems[i].Checked = i == this.value;
         int index = i;
-        this.menuItems[i].Click += delegate(object sender, EventArgs e) {
+        this.menuItems[i].Click += delegate (object sender, EventArgs e) {
           this.Value = index;
         };
-      }      
+      }
     }
 
     public int Value {
@@ -48,7 +48,7 @@ namespace OpenHardwareMonitor.GUI {
           this.value = value;
           if (this.name != null)
             settings.SetValue(name, value);
-          for (int i = 0; i < this.menuItems.Length; i++) 
+          for (int i = 0; i < this.menuItems.Length; i++)
             this.menuItems[i].Checked = i == value;
           if (changed != null)
             changed(this, null);
