@@ -88,9 +88,6 @@ namespace OpenHardwareMonitor.GUI {
             BufferedGraphicsManager.Current.MaximumBuffer =
               Screen.PrimaryScreen.Bounds.Size;
 
-            // set the DockStyle here, to avoid conflicts with the MainMenu
-            this.splitContainer.Dock = DockStyle.Fill;
-
             this.Font = SystemFonts.MessageBoxFont;
             treeView.Font = SystemFonts.MessageBoxFont;
 
@@ -129,9 +126,6 @@ namespace OpenHardwareMonitor.GUI {
             if (Hardware.OperatingSystem.IsUnix) { // Unix
                 treeView.RowHeight = Math.Max(treeView.RowHeight,
                   DpiHelper.LogicalToDeviceUnits(18));
-                splitContainer.BorderStyle = BorderStyle.None;
-                splitContainer.Border3DStyle = Border3DStyle.Adjust;
-                splitContainer.SplitterWidth = 4;
                 treeView.BorderStyle = BorderStyle.Fixed3D;
                 gadgetMenuItem.Visible = false;
                 minCloseMenuItem.Visible = false;

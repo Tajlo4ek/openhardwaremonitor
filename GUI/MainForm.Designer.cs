@@ -100,11 +100,7 @@ namespace OpenHardwareMonitor.GUI {
             this.treeContextMenu = new System.Windows.Forms.ContextMenu();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.splitContainer = new OpenHardwareMonitor.GUI.SplitContainerAdv();
             this.treeView = new Aga.Controls.Tree.TreeViewAdv();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
-            this.splitContainer.Panel1.SuspendLayout();
-            this.splitContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // sensor
@@ -535,27 +531,6 @@ namespace OpenHardwareMonitor.GUI {
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
-            // splitContainer
-            // 
-            this.splitContainer.Border3DStyle = System.Windows.Forms.Border3DStyle.Raised;
-            this.splitContainer.Color = System.Drawing.SystemColors.Control;
-            this.splitContainer.Cursor = System.Windows.Forms.Cursors.Default;
-            this.splitContainer.Location = new System.Drawing.Point(12, 12);
-            this.splitContainer.Name = "splitContainer";
-            this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer.Panel1
-            // 
-            this.splitContainer.Panel1.Controls.Add(this.treeView);
-            // 
-            // splitContainer.Panel2
-            // 
-            this.splitContainer.Panel2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.splitContainer.Size = new System.Drawing.Size(386, 483);
-            this.splitContainer.SplitterDistance = 354;
-            this.splitContainer.SplitterWidth = 5;
-            this.splitContainer.TabIndex = 3;
-            // 
             // treeView
             // 
             this.treeView.BackColor = System.Drawing.SystemColors.Window;
@@ -579,7 +554,7 @@ namespace OpenHardwareMonitor.GUI {
             this.treeView.NodeControls.Add(this.nodeTextBoxMin);
             this.treeView.NodeControls.Add(this.nodeTextBoxMax);
             this.treeView.SelectedNode = null;
-            this.treeView.Size = new System.Drawing.Size(386, 354);
+            this.treeView.Size = new System.Drawing.Size(418, 512);
             this.treeView.TabIndex = 0;
             this.treeView.Text = "treeView";
             this.treeView.UseColumns = true;
@@ -594,7 +569,7 @@ namespace OpenHardwareMonitor.GUI {
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(418, 512);
-            this.Controls.Add(this.splitContainer);
+            this.Controls.Add(this.treeView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Menu = this.mainMenu;
             this.Name = "MainForm";
@@ -604,9 +579,6 @@ namespace OpenHardwareMonitor.GUI {
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResizeEnd += new System.EventHandler(this.MainForm_MoveOrResize);
             this.Move += new System.EventHandler(this.MainForm_MoveOrResize);
-            this.splitContainer.Panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
-            this.splitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
 
     }
@@ -626,7 +598,6 @@ namespace OpenHardwareMonitor.GUI {
     private Aga.Controls.Tree.NodeControls.NodeTextBox nodeTextBoxValue;
     private Aga.Controls.Tree.NodeControls.NodeTextBox nodeTextBoxMin;
     private Aga.Controls.Tree.NodeControls.NodeTextBox nodeTextBoxMax;
-    private SplitContainerAdv splitContainer;
     private System.Windows.Forms.MenuItem viewMenuItem;
     private System.Windows.Forms.MenuItem helpMenuItem;
     private System.Windows.Forms.MenuItem aboutMenuItem;
